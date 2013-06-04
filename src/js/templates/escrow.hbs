@@ -1,0 +1,62 @@
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span9">
+      <p><a href="/escrows" class="btn">Back to My Escrows</a></p>
+
+      <h2>{{description}}</h2>
+
+      {{#if address}}
+        <h4>Escrow Address: {{address}}</h4>
+      {{/if}}
+      
+      {{#if accepted}}
+        {{#if is_payer}}
+          <h4>Escrow with: {{payee.email}}</h4>
+        {{else}}
+          <h4>Escrow with: {{payer.email}}</h4>
+        {{/if}}
+      {{/if}}
+
+      {{#if verify}}
+        {{#unless is_originator}}
+          <p>Please verify the escrow with the code you were emailed.</p>
+          <p><a href="/escrows/{{uuid}}/verify" class="btn btn-primary">Verify</a></p>
+        {{/unless}}
+      {{/if}}
+
+      {{#if accepted}}
+        {{#if is_payer}}
+          <div class="alert alert-error">
+            <strong>Please verify the balance matches the funds you expect</strong>
+          </div>
+          <a href="/escrows/{{uuid}}/release" id="release" class="btn btn-primary">Release Funds</a>
+        {{/if}}
+
+        {{#if is_payee}}
+          <div class="alert">
+            <strong>Waiting for payment from: {{payer.email}}</strong>
+          </div>
+        {{/if}}
+      {{/if}}
+      
+      {{#if released}}
+        {{#if is_payer}}
+          <p>The funds have now been made available to {{payee.email}}</p>
+        {{/if}}
+
+        {{#if is_payee}}
+          <a href="/escrows/{{uuid}}/redeem" class="btn btn-primary">Redeem Funds</a>
+        {{/if}}
+      {{/if}}
+    </div>
+
+    {{#if address}}
+      <div class="span3">
+        <div class="well">
+          <h4>Balance</h4>
+          <h4>{{balance}} BTC</h4>
+        </div>
+      </div>
+    {{/if}}
+  </div>
+</div>

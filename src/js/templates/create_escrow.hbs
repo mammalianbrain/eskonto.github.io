@@ -1,0 +1,56 @@
+<form id="create" class="form-horizontal">
+  <fieldset>
+    <legend>Create a new Escrow</legend>
+
+    <div class="control-group">
+      <div class="controls">
+        <p>I would like to:</p>
+        <label for="payer">
+          <input type="radio" id="payer" class="radio inline" name="escrow[role]" value="payer" /> Send
+        </label>
+
+        <label for="payee">
+          <input type="radio" id="payee" class="radio inline" name="escrow[role]" value="payee" /> Receive
+        </label>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label for="description" class="control-label">Description</label>
+      <div class="controls">
+        <input type="text" id="description" name="escrow[description]" />
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label for="amount" class="control-label">Amount</label>
+      <div class="controls">
+        <input type="text" id="amount" name="escrow[amount]" />
+      </div>
+    </div>
+  </fieldset>
+
+  <div class="form-actions">
+    <input type="submit" class="btn btn-primary" value="Create" />
+    <img src="dist/img/spinner.gif" id="spinner" />
+  </div>
+</form>
+
+<div id="escrow-modal" class="modal hide fade" data-backdrop="static">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Confirm Email Sent</h3>
+  </div>
+  <div class="modal-body">
+    <h5>Please send the following text to the person you wish join you in this escrow agreement</h5>
+
+    <div class="alert alert-warning">
+      <strong>Make a note of the payment verification code as you will need this to collect the funds</strong>
+    </div>
+
+    <textarea class="input-xxlarge" rows="14" id="escrow-email"></textarea>
+  </div>
+  <div class="modal-footer">
+    <a href="/escrows" class="btn btn-primary">Confirm</a>
+  </div>
+</div>

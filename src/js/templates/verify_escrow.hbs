@@ -1,0 +1,29 @@
+<h4>Enter your Payment Invitation to verify the Escrow</h4>
+
+<form id="verify" class="form-horizontal" data-role="{{#if is_payee}}payee{{else}}payer{{/if}}">
+  <fieldset>
+    <div class="control-group">
+      <label class="control-label">Payment Invitation</label>
+      <div class="controls">
+        <input type="text" id="verify-code2" class="input-xlarge" />
+      </div>
+    </div>
+  </fieldset>
+
+  <div class="form-actions">
+    <input type="submit" class="btn btn-primary" value="Verify">
+  </div>
+</form>
+
+<div id="verify-modal" class="modal hide fade" data-backdrop="static">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Verification Result</h3>
+  </div>
+  <div class="modal-body">
+    <p id="verification"> ... not yet verified ... </p>
+  </div>
+  <div class="modal-footer">
+    <a href="javascript:void(0)" class="btn btn-primary">Close</a>
+  </div>
+</div>
