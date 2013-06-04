@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BitEscrow</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="dist/css/style.min.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="dist/css/alfaroa.css" rel="stylesheet" type="text/css" media="all" />
+  <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>  
+  <link href='http://fonts.googleapis.com/css?family=Condiment' rel='stylesheet' type='text/css'>
+</head>
+<body>
+
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a href="/" class="brand">BitEscrow</a>
+        <ul class="nav pull-right">
+          <li id="login">
+            <a href="/login">Login</a>
+          </li>
+          <li id="signup">
+            <a href="/signup">Sign Up</a>
+          </li>
+          <li id="logout" style="display: none;">
+            <a href="/logout">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  <div class="container" id="content">
+    <p>Please <a href="/signup">signup</a> to create an escrow agreement</p>
+  </div>
+
+  <script type="text/javascript" src="dist/js/app.js"></script>
+  <script>
+    App.initialize();
+
+    $(function($) {
+      return $(document).delegate("a", "click", function(evt) {
+        var href, protocol;
+        if ($(this).hasClass("js")) {
+          return;
+        }
+        href = $(this).attr("href");
+        protocol = this.protocol + "//";
+        if (href.slice(protocol.length) !== protocol) {
+          evt.preventDefault();
+          return App.Router.navigate(href, {
+            trigger: true
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
