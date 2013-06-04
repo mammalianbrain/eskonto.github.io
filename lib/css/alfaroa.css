@@ -35,7 +35,7 @@ h5 {
 }
 #header {
   border-top: 2px solid #414C60;
-  background: #3e495d url(../img/header-background.jpg) center 0 repeat-x;
+  background: #3e495d url(../../img/header-background.jpg) center 0 repeat-x;
   text-align: center;
 }
 #header p {
