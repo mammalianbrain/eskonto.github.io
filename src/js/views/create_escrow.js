@@ -1,6 +1,11 @@
 App.Views.CreateEscrow = Backbone.View.extend({
   
-  template: JST['create_escrow.hbs'],
+  template: function(context) {
+    var source   = $("#create_escrow_tmpl").html();
+    var template = Handlebars.compile(source);
+
+    return template(context);
+  },
 
   events: {
     'submit form' : 'process',

@@ -1,6 +1,11 @@
 App.Views.RedeemEscrow = App.Views.EscrowBaseView.extend({
 
-  template: JST['redeem_escrow.hbs'],
+  template: function(context) {
+    var source   = $("#redeem_escrow_tmpl").html();
+    var template = Handlebars.compile(source);
+
+    return template(context);
+  },
 
   events: {
     'submit form' : 'process'

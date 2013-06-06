@@ -1,6 +1,11 @@
 App.Views.VerifyEscrow = App.Views.EscrowBaseView.extend({
 
-  template: JST['verify_escrow.hbs'],
+  template: function(context) {
+    var source   = $("#verify_escrow_tmpl").html();
+    var template = Handlebars.compile(source);
+
+    return template(context);
+  },
 
   events: {
     'submit form' : 'process',

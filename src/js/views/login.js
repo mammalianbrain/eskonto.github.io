@@ -1,6 +1,11 @@
 App.Views.Login = Backbone.View.extend({
 
-  template: JST['login.hbs'],
+  template: function(context) {
+    var source   = $("#login_tmpl").html();
+    var template = Handlebars.compile(source);
+
+    return template(context);
+  },
 
   events: {
     'submit form': 'process'
