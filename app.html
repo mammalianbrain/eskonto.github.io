@@ -34,6 +34,297 @@
     <p>Please <a href="/signup">signup</a> to create an escrow agreement</p>
   </div>
 
+  <script type="text/x-handlebars-template" id="login_tmpl">
+    <form class="form-horizontal">
+      <fieldset>
+      <div class="control-group">
+        <label for="user_email" class="control-label">Email</label>
+        <div class="controls">
+          <input type="text" id="user_email" name="user[email]" />
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="user_password" class="control-label">Password</label>
+        <div class="controls">
+          <input type="password" id="user_password" name="user[password]" />
+        </div>
+      </div>  
+
+      <div class="form-actions">
+        <input name="commit" class="btn btn-primary" type="submit" value="Sign in" />
+        <img src="img/spinner.gif" id="spinner" />
+      </div>
+    </form>
+  </script>
+
+  <script type="text/x-handlebars-template" id="sign_up_tmpl">
+    <form class="form-horizontal">
+      <fieldset>
+      <div class="control-group">
+        <label for="user_email" class="control-label">Email</label>
+        <div class="controls">
+          <input type="text" id="user_email" name="user[email]" />
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="user_password" class="control-label">Password</label>
+        <div class="controls">
+          <input type="password" id="user_password" name="user[password]" />
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="user_password_confirmation" class="control-label">Password Confirmation</label>
+        <div class="controls">
+          <input type="password" id="user_password_confirmation" name="user[password_confirmation]" />
+        </div>
+      </div>  
+
+      <div class="form-actions">
+        <input name="commit" class="btn btn-primary" type="submit" value="Sign up" />
+        <img src="img/spinner.gif" id="spinner" />
+      </div>
+    </form>
+  </script>
+
+  <script type="text/x-handlebars-template" id="escrows_tmpl">
+    <a class="btn btn-primary" href="/escrows/new">New Escrow</a>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Created</th>
+          <th>Description</th>
+          <th>Amount</th>
+          <th>Address</th>
+          <th>With</th>
+          <th>Status</th>
+      </thead>
+      <tbody>
+        {{#each escrows}}
+          <tr>
+            <td>
+              {{dateFormat created_at format="DD/MM/YY hh:mm"}}
+            </td>
+            <td>
+              <a href="/escrows/{{uuid}}">{{description}}</a>
+            </td>
+            <td>
+              {{amount}} BTC
+            </td>
+            <td>
+              {{address}}
+            </td>
+            <td>
+              {{#if is_payer}}
+                {{payee.email}}
+              {{else}}
+                {{payer.email}}
+              {{/if}}
+            </td>
+            <td>
+              {{status}}
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </script>
+
+  <script type="text/x-handlebars-template" id="create_escrow_tmpl">
+    <form id="create" class="form-horizontal">
+      <fieldset>
+        <legend>Create a new Escrow</legend>
+
+        <div class="control-group">
+          <div class="controls">
+            <p>I would like to:</p>
+            <label for="payer">
+              <input type="radio" id="payer" class="radio inline" name="escrow[role]" value="payer" /> Send
+            </label>
+
+            <label for="payee">
+              <input type="radio" id="payee" class="radio inline" name="escrow[role]" value="payee" /> Receive
+            </label>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label for="description" class="control-label">Description</label>
+          <div class="controls">
+            <input type="text" id="description" name="escrow[description]" />
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label for="amount" class="control-label">Amount</label>
+          <div class="controls">
+            <input type="text" id="amount" name="escrow[amount]" />
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="Create" />
+        <img src="img/spinner.gif" id="spinner" />
+      </div>
+    </form>
+
+    <div id="escrow-modal" class="modal hide fade" data-backdrop="static">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Confirm Email Sent</h3>
+      </div>
+      <div class="modal-body">
+        <h5>Please send the following text to the person you wish join you in this escrow agreement</h5>
+
+        <div class="alert alert-warning">
+          <strong>Make a note of the payment verification code as you will need this to collect the funds</strong>
+        </div>
+
+        <textarea class="input-xxlarge" rows="14" id="escrow-email"></textarea>
+      </div>
+      <div class="modal-footer">
+        <a href="/escrows" class="btn btn-primary">Confirm</a>
+      </div>
+    </div>
+  </script>
+
+  <script type="text/x-handlebars-template" id="escrow_tmpl">
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span9">
+          <p><a href="/escrows" class="btn">Back to My Escrows</a></p>
+
+          <h2>{{description}}</h2>
+
+          {{#if address}}
+            <h4>Escrow Address: {{address}}</h4>
+          {{/if}}
+          
+          {{#if accepted}}
+            {{#if is_payer}}
+              <h4>Escrow with: {{payee.email}}</h4>
+            {{else}}
+              <h4>Escrow with: {{payer.email}}</h4>
+            {{/if}}
+          {{/if}}
+
+          {{#if verify}}
+            {{#unless is_originator}}
+              <p>Please verify the escrow with the code you were emailed.</p>
+              <p><a href="/escrows/{{uuid}}/verify" class="btn btn-primary">Verify</a></p>
+            {{/unless}}
+          {{/if}}
+
+          {{#if accepted}}
+            {{#if is_payer}}
+              <div class="alert alert-error">
+                <strong>Please verify the balance matches the funds you expect</strong>
+              </div>
+              <a href="/escrows/{{uuid}}/release" id="release" class="btn btn-primary">Release Funds</a>
+            {{/if}}
+
+            {{#if is_payee}}
+              <div class="alert">
+                <strong>Waiting for payment from: {{payer.email}}</strong>
+              </div>
+            {{/if}}
+          {{/if}}
+          
+          {{#if released}}
+            {{#if is_payer}}
+              <p>The funds have now been made available to {{payee.email}}</p>
+            {{/if}}
+
+            {{#if is_payee}}
+              <a href="/escrows/{{uuid}}/redeem" class="btn btn-primary">Redeem Funds</a>
+            {{/if}}
+          {{/if}}
+        </div>
+
+        {{#if address}}
+          <div class="span3">
+            <div class="well">
+              <h4>Balance</h4>
+              <h4>{{balance}} BTC</h4>
+            </div>
+          </div>
+        {{/if}}
+      </div>
+    </div>
+  </script>
+
+  <script type="text/x-handlebars-template" id="verify_escrow_tmpl">
+    <h4>Enter your Payment Invitation to verify the Escrow</h4>
+
+    <form id="verify" class="form-horizontal" data-role="{{#if is_payee}}payee{{else}}payer{{/if}}">
+      <fieldset>
+        <div class="control-group">
+          <label class="control-label">Payment Invitation</label>
+          <div class="controls">
+            <input type="text" id="verify-code2" class="input-xlarge" />
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="Verify">
+      </div>
+    </form>
+
+    <div id="verify-modal" class="modal hide fade" data-backdrop="static">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Verification Result</h3>
+      </div>
+      <div class="modal-body">
+        <p id="verification"> ... not yet verified ... </p>
+      </div>
+      <div class="modal-footer">
+        <a href="javascript:void(0)" class="btn btn-primary">Close</a>
+      </div>
+    </div>
+  </script>
+
+  <script type="text/x-handlebars-template" id="redeem_escrow_tmpl">
+    <form id="redeem" class="form-horizontal">
+      <fieldset>
+        <legend>Please enter your payment invitation to extract the private key</legend>
+
+        <div class="control-group">
+          <label class="control-label">Invite Code</label>
+          <div class="controls">
+            <input type="text" id="einvp" name="escrow[einvp]" class="input-xxlarge" />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div class="control-group">
+          <label class="control-label">Address</label>
+          <div class="controls">
+            <input type="text" id="redeem-address" name="escrow[redeem-address]" class="input-xxlarge" />
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Private Key</label>
+
+          <div class="controls">
+            <input type="text" id="redeem-wif" name="escrow[redeem-wif]" class="input-xxlarge" />
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="Redeem" />
+        <a href="/escrows" class="btn">Back</a>
+      </div>
+    </form>
+  </script>
+
   <script type="text/javascript" src="lib/js/jquery-2.0.0.min.js"></script>
   <script type="text/javascript" src="lib/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="lib/js/underscore-min.js"></script>
@@ -41,7 +332,7 @@
   <script type="text/javascript" src="lib/js/backbone_filters.js"></script>
   <script type="text/javascript" src="lib/js/moment.min.js"></script>
   <script type="text/javascript" src="lib/js/jquery.cookie.js"></script>
-  <script type="text/javascript" src="lib/js/handlebars.runtime.js"></script>
+  <script type="text/javascript" src="lib/js/handlebars.js"></script>
   <script type="text/javascript" src="lib/js/elliptic.curve.js"></script>
   <script type="text/javascript" src="lib/js/crypto.js"></script>
   <script type="text/javascript" src="lib/js/secure.random.js"></script>
@@ -51,12 +342,11 @@
   <script type="text/javascript" src="lib/js/bitcoin.ecdsa.js"></script>
   <script type="text/javascript" src="lib/js/bitcoin.escrow.js"></script>
   
-  
   <script type="text/javascript" src="src/js/helpers.js"></script>           
   <script type="text/javascript" src="src/js/app.js"></script>            
   <script type="text/javascript" src="src/js/models/escrow.js"></script>            
   <script type="text/javascript" src="src/js/collections/escrows.js"></script>            
-  <script type="text/javascript" src="src/js/templates.js"></script>            
+
   <script type="text/javascript" src="src/js/views/escrow_base_view.js"></script>
   <script type="text/javascript" src="src/js/views/accept_escrow.js"></script>
   <script type="text/javascript" src="src/js/views/create_escrow.js"></script>
@@ -68,7 +358,6 @@
   <script type="text/javascript" src="src/js/views/sign_up.js"></script>
   <script type="text/javascript" src="src/js/views/verify_escrow.js"></script>                      
   <script type="text/javascript" src="src/js/routes.js"></script>
-
 
   <script>
     App.initialize();

@@ -1,5 +1,10 @@
 App.Views.ShowEscrow = App.Views.EscrowBaseView.extend({
 
-  template: JST['escrow.hbs']
+  template: function(context) {
+    var source   = $("#escrow_tmpl").html();
+    var template = Handlebars.compile(source);
+
+    return template(context);
+  }
 
 });

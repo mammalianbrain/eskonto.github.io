@@ -1,6 +1,9 @@
 App.Views.AcceptEscrow = App.Views.EscrowBaseView.extend({
 
-  template: JST['accept_escrow.hbs'],
+  template: function() {
+    var source   = $("#accept_escrow").html();
+    var template = Handlebars.compile(source);
+  },
 
   events: {
     'click #accept' : 'process'

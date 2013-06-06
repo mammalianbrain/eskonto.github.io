@@ -1,6 +1,11 @@
 App.Views.SignUp = Backbone.View.extend({
   
-  template: JST['sign_up.hbs'],
+  template: function(context) {
+    var source   = $("#sign_up_tmpl").html();
+    var template = Handlebars.compile(source);
+
+    return template(context);
+  },
 
   events: {
     'submit form' : 'process'
