@@ -7,7 +7,7 @@ body {
 }  
 
 textarea.input-xxlarge {   
-  width: 515px; 
+  width: 500px; 
 }  
 
 .well {   
@@ -22,4 +22,8 @@ textarea.input-xxlarge {
   border: 8px solid rgba(128, 128, 128, .6);     
   -webkit-background-clip: padding-box; /* for Safari */     
   background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
+}
+
+.modal-body {     
+  max-height: 800px; 
 }
