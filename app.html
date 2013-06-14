@@ -31,7 +31,7 @@
   </header>
   
   <nav id="left-panel">
-  	<div id="left-panel-content">
+	<div id="left-panel-content">
 			<ul>
 				<li>
 					<a href="dashboard.html"><span class="icon-dashboard"></span>Dashboard</a>
@@ -153,32 +153,35 @@
   </script>
 
   <script type="text/x-handlebars-template" id="create_escrow_tmpl">
+    <h3 class="box-header">Create an Escrow agreement</h3>
+    <div class="box">
     <form id="create" class="form-horizontal">
       <fieldset>
-        <legend>Create a new Escrow</legend>
 
         <div class="control-group">
+          <label class="control-label">I would like to:</label>
           <div class="controls">
-            <p>I would like to:</p>
             <label for="payer">
-              <input type="radio" id="payer" class="radio inline" name="escrow[role]" value="payer" /> Send
+              <input type="radio" id="payer" class="radio inline" name="escrow[role]" value="payer" /> 
+              Send Bitcoins in return for an item or service.
             </label>
 
             <label for="payee">
-              <input type="radio" id="payee" class="radio inline" name="escrow[role]" value="payee" /> Receive
+              <input type="radio" id="payee" class="radio inline" name="escrow[role]" value="payee" /> 
+              Receive Bitcoins in return for an item or service.
             </label>
           </div>
         </div>
 
         <div class="control-group">
-          <label for="description" class="control-label">Description</label>
+          <label for="description" class="control-label">Brief Description</label>
           <div class="controls">
             <input type="text" id="description" name="escrow[description]" />
           </div>
         </div>
 
         <div class="control-group">
-          <label for="amount" class="control-label">Amount</label>
+          <label for="amount" class="control-label">Amount in BTC</label>
           <div class="controls">
             <input type="text" id="amount" name="escrow[amount]" />
           </div>
@@ -186,15 +189,17 @@
       </fieldset>
 
       <div class="form-actions">
-        <input type="submit" class="btn btn-primary" value="Create" />
+        <input type="submit" class="btn btn-primary" value="I'm ready, let's create the email." />
         <img src="img/spinner.gif" id="spinner" />
       </div>
     </form>
+    <div>
+
 
     <div id="escrow-modal" class="modal hide fade" data-backdrop="static">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3>Confirm Email Sent</h3>
+        <h3>You need to send an email to the other party.</h3>
       </div>
       <div class="modal-body">
         <h5>Please send the following text to the person you wish join you in this escrow agreement</h5>
