@@ -68,6 +68,8 @@ App.Views.SignUp = Backbone.View.extend({
 
       return false;
     }
+
+    return true;
   }
 
 });
