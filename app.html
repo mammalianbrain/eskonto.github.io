@@ -52,6 +52,11 @@
   </section>
 
   <script type="text/x-handlebars-template" id="login_tmpl">
+    {{#if escrow}}
+      <div class="alert alert-info">
+        <p>Please login to view escrow ID: {{escrow}}</p>
+      </div>
+    {{/if}}
     <form class="form-horizontal">
       <fieldset>
       <div class="control-group">
@@ -76,6 +81,11 @@
   </script>
 
   <script type="text/x-handlebars-template" id="sign_up_tmpl">
+    {{#if escrow}}
+      <div class="alert alert-info">
+        <p>Please sign up to view escrow ID: {{escrow}}</p>
+      </div>
+    {{/if}}
     <form class="form-horizontal">
       <fieldset>
       <div class="control-group">

@@ -12,7 +12,11 @@ App.Views.Login = Backbone.View.extend({
   },
 
   render: function() {
-    this.$el.html(this.template());
+    var ctx = {};
+    if (App.location != undefined) {
+      ctx['escrow'] = App.location.split('/')[1];
+    }
+    this.$el.html(this.template(ctx));
     this.show();
   },
 
