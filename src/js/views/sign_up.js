@@ -70,7 +70,7 @@ App.Views.SignUp = Backbone.View.extend({
     if ($passwordConfirmation.val().length < 6) {
       $passwordConfirmation.popover({ content: "Password must 6 characters or greater" }).popover('show');
 
-      return false;
+      return true;
     }
 
   }
