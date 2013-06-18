@@ -21,7 +21,7 @@ App.Routers.Navigation = Backbone.Router.extend({
       $('#signup').show();
       $('#logout').hide();
 
-      if (App.location === undefined) {
+      if (route === 'escrows/:id') {
         App.location = route.replace(/:id/, params);
       }
 
