@@ -227,12 +227,11 @@
   </script>
 
   <script type="text/x-handlebars-template" id="escrow_tmpl">
+    <h3 class="box-header">{{description}}</h3>
+    <div class="box">
     <div class="container-fluid">
       <div class="row-fluid">
         <div class="span9">
-          <p><a href="/escrows" class="btn">Back to My Escrows</a></p>
-
-          <h2>{{description}}</h2>
 
           {{#if address}}
             <h4>Escrow Address: {{address}}</h4>
@@ -248,7 +247,17 @@
 
           {{#if verify}}
             {{#unless is_originator}}
-              <p>Please verify the escrow with the code you were emailed.</p>
+              <p>Welcome to eskonto escrow verification.</p>
+              {{#if is_payer}}
+                <p>You have been invited into an escrow by <strong>{{payee.email}}</strong> 
+                for <strong>{{amount}}</strong> BTC.</p>
+              {{else}}
+                <p>You have been invited into an escrow by <strong>{{payer.email}}</strong> 
+                for <strong>{{amount}}</strong> BTC.</p>
+              {{/if}}
+              <p>To accept the escrow we need the verification code you received by email. 
+              This code is used to create the bitcoin address where funds will be sent.</p>
+              <p>When you have your code ready click the button below.</p>
               <p><a href="/escrows/{{uuid}}/verify" class="btn btn-primary">Verify</a></p>
             {{/unless}}
           {{/if}}
@@ -289,10 +298,12 @@
         {{/if}}
       </div>
     </div>
+    </div>
   </script>
 
   <script type="text/x-handlebars-template" id="verify_escrow_tmpl">
-    <h4>Enter your Payment Invitation to verify the Escrow</h4>
+    <h3 class="box-header">Enter your Payment Invitation to verify the Escrow</h3>
+    <div class="box">
 
     <form id="verify" class="form-horizontal" data-role="{{#if is_payee}}payee{{else}}payer{{/if}}">
       <fieldset>
@@ -320,6 +331,7 @@
       <div class="modal-footer">
         <a href="javascript:void(0)" class="btn btn-primary">Close</a>
       </div>
+    </div>
     </div>
   </script>
 
