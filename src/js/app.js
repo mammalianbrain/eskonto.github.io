@@ -4,7 +4,7 @@ window.App = {
   Views: {},
   Routers: {},
 
-  base_url: 'http://bitescrow.herokuapp.com/',
+  base_url: 'http://eskonto.herokuapp.com/',
 
   auth_token: function() {
     return $.cookie('auth_token');
