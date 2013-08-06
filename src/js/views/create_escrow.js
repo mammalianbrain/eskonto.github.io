@@ -55,7 +55,7 @@ App.Views.CreateEscrow = Backbone.View.extend({
     var emailText = 'Hi,\r\n\r\n';
     emailText += 'Payee wants you to join them in an escrow transaction for ' + escrow.amount + 'BTC.\r\n\r\n';
     emailText += 'To accept click on the link below.\r\n\r\n';
-    emailText += 'bitcoinescrow.com/app.html#escrows/' + escrow.uuid + '\r\n\r\n';
+    emailText += 'http://eskonto.com/app.html#escrows/' + escrow.uuid + '\r\n\r\n';
     emailText += 'When asked asked for a payment verification code, enter the code below.\r\n\r\n';
     emailText += payment.invitationP;
 
